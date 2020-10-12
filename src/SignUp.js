@@ -11,21 +11,22 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link } from 'found'
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Link } from 'found';
 
-// function Copyright() {
-//     return (
-//         <Typography variant="body2" color="textSecondary" align="center">
-//             {'Copyright © '}
-//             <Link color="inherit" href="https://material-ui.com/">
-//                 Your Website
-//       </Link>{' '}
-//             {new Date().getFullYear()}
-//             {'.'}
-//         </Typography>
-//     );
-// }
+function Copyright() {
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            {'Copyright © '}
+            {/* <Link color="inherit" href="https://material-ui.com/">
+                mm.sk
+            </Link>{' '} */}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
+
 
 function ListItemLink(props) {
     const { icon, primary, to } = props;
@@ -39,10 +40,12 @@ function ListItemLink(props) {
     );
 
     return (
-        <ListItem button component={CustomLink}>
-            {/* <ListItemIcon>{icon}</ListItemIcon> */}
-            <ListItemText primary={primary} />
-        </ListItem>
+        <li>
+            <ListItem button component={CustomLink}>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={primary} />
+            </ListItem>
+        </li>
     );
 }
 
@@ -66,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignIn() {
+export default function SignUp() {
     const classes = useStyles();
 
     return (
@@ -77,7 +80,7 @@ export default function SignIn() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    REGISTER
         </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
@@ -119,19 +122,19 @@ export default function SignIn() {
                         <Grid item xs>
                             {/* <Link href="#" variant="body2">
                                 Forgot password?
-              </Link> */}
+                            </Link> */}
                         </Grid>
                         <Grid item>
-                            <ListItemLink
-                                to={"/register"}
-                                primary="Register"
-                            />
+                            {/* <Link href="#" variant="body2">
+                                {"Don't have an account? Sign Up"}
+                            </Link> */}
+                            <ListItemLink to={signUp} />
                         </Grid>
                     </Grid>
                 </form>
             </div>
             <Box mt={8}>
-                {/* <Copyright /> */}
+                <Copyright />
             </Box>
         </Container>
     );

@@ -14,7 +14,7 @@ import Login from './login'
 
 const BrowserRouter = createBrowserRouter({
   routeConfig: makeRouteConfig(
-    <Route path="register" Component={App}>
+    <Route path="/" Component={App}>
       <Route Component={Login} path='login' />
       <Route Component={Register} path="register" />
     </Route>,

@@ -3,15 +3,12 @@ import logo from './logo.svg';
 import './App.css';
 import PropTypes from 'prop-types';
 
-PropTypes AppProps {
-  children: PropTypes.ReactNodeLike;
-}
 
-function App(props) {
+function App({ children }) {
   return (
-    <>
-      {}
-    </>
+    <div>
+      {children}
+    </div>
   );
 }
 
