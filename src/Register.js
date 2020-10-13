@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from 'found'
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { ApiPost } from './common/Api'
+import api from './api'
 
 // function Copyright() {
 //     return (
@@ -89,7 +89,7 @@ export default function Register() {
         setPhone(e.target.value)
     }
 
-    const signUpHandling = (e) => {
+    const signUpHandling = async (e) => {
         e.preventDefault();
 
         const body = {
@@ -99,9 +99,10 @@ export default function Register() {
             phone: phone
         };
 
-
-        ApiPost('/api/user/', body)
-
+        await api.insertUser(body)
+            .then(res => {
+                window.alert(`Movie inserted successfully`)
+            })
     }
 
     // console.log(name, email, pass, phone)
