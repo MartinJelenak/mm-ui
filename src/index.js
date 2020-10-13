@@ -17,6 +17,7 @@ const BrowserRouter = createBrowserRouter({
     <Route path="/" Component={App}>
       <Route Component={Login} path='login' />
       <Route Component={Register} path="register" />
+      <Redirect from="/" to="register" />
     </Route>,
   ),
 

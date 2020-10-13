@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from 'found'
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { ApiPost } from './common/Api'
 
 // function Copyright() {
 //     return (
@@ -68,6 +69,42 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Register() {
     const classes = useStyles();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [pass, setPass] = useState('');
+    const [phone, setPhone] = useState('');
+
+
+
+    const getName = (e) => {
+        setName(e.target.value)
+    }
+    const getEmail = (e) => {
+        setEmail(e.target.value)
+    }
+    const getPass = (e) => {
+        setPass(e.target.value)
+    }
+    const getPhone = (e) => {
+        setPhone(e.target.value)
+    }
+
+    const signUpHandling = (e) => {
+        e.preventDefault();
+
+        const body = {
+            name: name,
+            email: email,
+            password: pass,
+            phone: phone
+        };
+
+
+        ApiPost('/api/user/', body)
+
+    }
+
+    // console.log(name, email, pass, phone)
 
     return (
         <Container component="main" maxWidth="xs">
@@ -85,11 +122,23 @@ export default function Register() {
                         margin="normal"
                         required
                         fullWidth
+                        id="name"
+                        label="Name"
+                        name="email"
+                        autoComplete="name"
+                        autoFocus
+                        onChange={getName}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
                         id="email"
                         label="Email Address"
                         name="email"
                         autoComplete="email"
-                        autoFocus
+                        onChange={getEmail}
                     />
                     <TextField
                         variant="outlined"
@@ -101,6 +150,19 @@ export default function Register() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={getPass}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="phone"
+                        label="Phone"
+                        type="tel"
+                        id="phone"
+                        autoComplete="current-password"
+                        onChange={getPhone}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
@@ -112,6 +174,7 @@ export default function Register() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={signUpHandling}
                     >
                         Sign up
           </Button>

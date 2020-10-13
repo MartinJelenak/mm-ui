@@ -1,4 +1,10 @@
 {
+  "proxy": {
+    "/api/*":  {
+      "target": "http://localhost:4000",
+      "secure": false
+    }
+  },
   "name": "mm",
   "version": "0.1.0",
   "private": true,
