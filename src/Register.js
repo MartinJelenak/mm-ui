@@ -101,8 +101,10 @@ export default function Register() {
 
         await api.insertUser(body)
             .then(res => {
-                window.alert(`Movie inserted successfully`)
+                window.alert(`User inserted successfully`)
             })
+        // setName
+        setPass('')
     }
 
     // console.log(name, email, pass, phone)

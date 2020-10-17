@@ -10,14 +10,15 @@ import {
 import App from './App'
 import Register from './Register';
 import Login from './login'
+import Main from './Main';
 
 
 const BrowserRouter = createBrowserRouter({
   routeConfig: makeRouteConfig(
     <Route path="/" Component={App}>
-      <Route Component={Login} path='login' />
+      <Route Component={Main} />
       <Route Component={Register} path="register" />
-      <Redirect from="/" to="register" />
+      <Route Component={Login} path='login' />
     </Route>,
   ),
 
