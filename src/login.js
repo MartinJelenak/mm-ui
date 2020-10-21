@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +13,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from 'found'
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import api from './api'
+import setAuthToken from './setAuthToken'
+import jwt_decode from "jwt-decode";
+import {
+    GET_ERRORS,
+    SET_CURRENT_USER,
+    USER_LOADING
+} from "./types";
 
 // function Copyright() {
 //     return (
@@ -26,25 +34,6 @@ import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 //         </Typography>
 //     );
 // }
-
-function ListItemLink(props) {
-    const { icon, primary, to } = props;
-
-    const CustomLink = React.useMemo(
-        () =>
-            React.forwardRef((linkProps, ref) => (
-                <Link ref={ref} to={to} {...linkProps} />
-            )),
-        [to],
-    );
-
-    return (
-        <ListItem button component={CustomLink}>
-            {/* <ListItemIcon>{icon}</ListItemIcon> */}
-            <ListItemText primary={primary} />
-        </ListItem>
-    );
-}
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -66,8 +55,68 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function ListItemLink(props) {
+    const { icon, primary, to } = props;
+
+    const CustomLink = React.useMemo(
+        () =>
+            React.forwardRef((linkProps, ref) => (
+                <Link ref={ref} to={to} {...linkProps} />
+            )),
+        [to],
+    );
+
+    return (
+        <ListItem button component={CustomLink}>
+            {/* <ListItemIcon>{icon}</ListItemIcon> */}
+            <ListItemText primary={primary} />
+        </ListItem>
+    );
+}
+
 export default function SignIn() {
     const classes = useStyles();
+    const [state, setState] = useState({ data: [] })
+    const [email, setEmail] = useState('')
+    const [pass, setPass] = useState('')
+
+    const emailHandle = (e) => {
+        setEmail(e.target.value)
+    }
+    const passHandle = (e) => {
+        setPass(e.target.value)
+    }
+
+    const signInHandle = async e => dispatch => {
+        e.preventDefault();
+
+        const body = {
+            email: email,
+            password: pass,
+        };
+
+        api.loginUser(body)
+            .then(res => {
+                console.log(res.data)
+                const { token } = res.data;
+                localStorage.setItem("jwtToken", token);
+                setAuthToken(token);
+                const decoded = jwt_decode(token);
+                dispatch(setCurrentUser(decoded));
+            })
+            .catch(err =>
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                })
+            );
+    }
+    const setCurrentUser = decoded => {
+        return {
+            type: SET_CURRENT_USER,
+            payload: decoded
+        };
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -90,6 +139,7 @@ export default function SignIn() {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        onChange={emailHandle}
                     />
                     <TextField
                         variant="outlined"
@@ -101,6 +151,7 @@ export default function SignIn() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={passHandle}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
@@ -112,6 +163,7 @@ export default function SignIn() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={signInHandle}
                     >
                         Sign In
           </Button>

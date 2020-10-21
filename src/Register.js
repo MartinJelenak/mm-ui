@@ -11,9 +11,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Alert from '@material-ui/lab/Alert';
 import { Link } from 'found'
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import api from './api'
+import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
 
 // function Copyright() {
 //     return (
@@ -73,6 +76,7 @@ export default function Register() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [phone, setPhone] = useState('');
+    const [success, setSuccess] = useState(false);
 
 
 
@@ -101,104 +105,121 @@ export default function Register() {
 
         await api.insertUser(body)
             .then(res => {
-                window.alert(`User inserted successfully`)
+                // console.log(res.data)
+                res.data.success ? setSuccess(true) : setSuccess(false)
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 5000);
+                setName('');
+                setEmail('');
+                setPass('');
+                setPhone('');
+
             })
-        // setName
-        setPass('')
     }
 
     // console.log(name, email, pass, phone)
 
     return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign up
-        </Typography>
-                <form className={classes.form} noValidate>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="name"
-                        label="Name"
-                        name="email"
-                        autoComplete="name"
-                        autoFocus
-                        onChange={getName}
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        onChange={getEmail}
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        onChange={getPass}
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="phone"
-                        label="Phone"
-                        type="tel"
-                        id="phone"
-                        autoComplete="current-password"
-                        onChange={getPhone}
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={signUpHandling}
-                    >
+        <>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
                         Sign up
+        </Typography>
+                    <form className={classes.form} noValidate>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="name"
+                            label="Name"
+                            name="email"
+                            autoComplete="name"
+                            autoFocus
+                            onChange={getName}
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            onChange={getEmail}
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            onChange={getPass}
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="phone"
+                            label="Phone"
+                            type="tel"
+                            id="phone"
+                            autoComplete="current-password"
+                            onChange={getPhone}
+                        />
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="primary" />}
+                            label="Remember me"
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={signUpHandling}
+                        >
+                            Sign up
           </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            {/* <Link href="#" variant="body2">
+                        <Grid container>
+                            <Grid item xs>
+                                {/* <Link href="#" variant="body2">
                                 Forgot password?
               </Link> */}
+                            </Grid>
+                            <Grid item>
+                                <ListItemLink
+                                    to={"/Login"}
+                                    primary="Login"
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <ListItemLink
-                                to={"/Login"}
-                                primary="Login"
-                            />
-                        </Grid>
-                    </Grid>
-                </form>
-            </div>
-            <Box mt={8}>
-                {/* <Copyright /> */}
-            </Box>
-        </Container>
+                    </form>
+                </div>
+                <Box mt={8}>
+                    {/* <Copyright /> */}
+                </Box>
+            </Container>
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                open={success}
+                onClose={success}
+                message="Success registration! You can sign in now."
+                severity="success"
+            // key={vertical + horizontal}
+            />
+        </>
     );
 }
