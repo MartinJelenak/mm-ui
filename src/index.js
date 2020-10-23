@@ -1,30 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {
-  createBrowserRouter,
-  HttpError,
-  makeRouteConfig,
-  Redirect,
-  Route,
-} from 'found';
-import App from './App'
-import Register from './Register';
-import Login from './login'
-import Main from './Main';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 
+import App from "./App";
+// import * as serviceWorker from "./serviceWorker";
 
-const BrowserRouter = createBrowserRouter({
-  routeConfig: makeRouteConfig(
-    <Route path="/" Component={App}>
-      <Route Component={Main} />
-      <Route Component={Register} path="register" />
-      <Route Component={Login} path='login' />
-    </Route>,
-  ),
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById("root")
+);
 
-  renderError: ({ error }) => (
-    <div>{error.status === 404 ? 'Not found' : 'Error'}</div>
-  ),
-});
-
-ReactDOM.render(<BrowserRouter />, document.getElementById('root'));
+// serviceWorker.unregister();

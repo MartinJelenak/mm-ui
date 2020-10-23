@@ -1,81 +1,135 @@
-import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import React, { Component } from "react";
+import { Switch, Route, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { Link } from 'found'
+import AuthService from "./services/auth.service";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+import Login from "./components/Login.component";
+import Register from "./components/Register.component";
+import Home from "./components/Home.component";
+import Profile from "./components/Profile.component";
+import BoardUser from "./components/Board-user.component";
+import BoardModerator from "./components/Board-moderator.component";
+import BoardAdmin from "./components/Board-admin.component";
+import { get } from "lodash";
 
-function ListItemLink(props) {
-  const { icon, primary, to } = props;
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.logOut = this.logOut.bind(this);
 
-  const CustomLink = React.useMemo(
-    () =>
-      React.forwardRef((linkProps, ref) => (
-        <Link ref={ref} to={to} {...linkProps} />
-      )),
-    [to],
-  );
+    this.state = {
+      showModeratorBoard: false,
+      showAdminBoard: false,
+      currentUser: undefined,
+    };
+  }
 
-  return (
-    <ListItem button component={CustomLink}>
-      {/* <ListItemIcon>{icon}</ListItemIcon> */}
-      <ListItemText primary={primary} />
-    </ListItem>
-  );
-}
+  componentDidMount() {
+    const user = AuthService.getCurrentUser();
 
-function App({ children }) {
+    if (user) {
+      this.setState({
+        currentUser: user,
+        showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
+        showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+      });
+    }
+  }
 
-  const classes = useStyles();
+  logOut() {
+    AuthService.logout();
+  }
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            News
-          </Typography>
-          <Button color="inherit"><ListItemLink
-            to={"/Login"}
-            primary="Sign in"
-          /></Button>
-          <Button color="inherit"><ListItemLink
-            to={"/register"}
-            primary="Sign up"
-          /></Button>
-        </Toolbar>
-      </AppBar>
-      <React.Fragment>
-        <CssBaseline />
-        <Container maxWidth="md">
-          {children}
+  render() {
+    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
 
-        </Container>
-      </React.Fragment>
-    </div>
-  );
+    return (
+      <div>
+        <nav className="navbar navbar-expand navbar-dark bg-dark">
+          <Link to={"/"} className="navbar-brand">
+            <a class="navbar-brand" href="#">
+              <img src="http://www.martinjelenak.com/static/media/logo.2ca6c8b0.png" height="30" class="d-inline-block align-top" alt="" loading="lazy" />
+            </a>
+              Martin Jelenak
+          </Link>
+          <div className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link to={"/home"} className="nav-link">
+                Home
+              </Link>
+            </li>
+
+            {showModeratorBoard && (
+              <li className="nav-item">
+                <Link to={"/mod"} className="nav-link">
+                  Moderator Board
+                </Link>
+              </li>
+            )}
+
+            {showAdminBoard && (
+              <li className="nav-item">
+                <Link to={"/admin"} className="nav-link">
+                  Admin Board
+                </Link>
+              </li>
+            )}
+
+            {currentUser && (
+              <li className="nav-item">
+                <Link to={"/user"} className="nav-link">
+                  User
+                </Link>
+              </li>
+            )}
+          </div>
+
+          {currentUser ? (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/profile"} className="nav-link">
+                  {currentUser.username}
+                </Link>
+              </li>
+              <li className="nav-item">
+                <a href="/login" className="nav-link" onClick={this.logOut}>
+                  LogOut
+                </a>
+              </li>
+            </div>
+          ) : (
+              <div className="navbar-nav ml-auto">
+                {/* <li className="nav-item">
+                  <Link to={"/login"} className="nav-link">
+                    Login
+                </Link>
+                </li> */}
+
+                <li className="nav-item">
+                  <Link to={"/register"} className="nav-link">
+                    Sign Up
+                </Link>
+                </li>
+              </div>
+            )}
+        </nav>
+
+        <div className="container mt-3">
+          <Switch>
+            <Route exact path={["/", "/home"]} component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/profile" component={Profile} />
+            <Route path="/user" component={BoardUser} />
+            <Route path="/mod" component={BoardModerator} />
+            <Route path="/admin" component={BoardAdmin} />
+          </Switch>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
