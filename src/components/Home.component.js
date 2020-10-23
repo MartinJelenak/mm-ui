@@ -31,11 +31,13 @@ export default class Home extends Component {
 
     render() {
         return (
-            <div className="container">
-                <header className="jumbotron">
-                    <h3>Home</h3>
-                </header>
-            </div>
+            <>
+                <div className="container-fluid">
+                    <img src="http://placehold.it/1920x1080" class="img-fluid" alt="Responsive image" />
+                </div>
+                <div className="container">
+                </div>
+            </>
         );
     }
 }
