@@ -23,24 +23,12 @@ export default function () {
         );
     }, [])
 
-
-    // const deleteClickHandle = async (e) => {
-    //     // e.preventDefault();
-    //     console.log(e.target)
-    //     // await api.deleteUserById(res)
-    //     //     .then(res => {
-    //     //         window.alert(`User inserted successfully`)
-    //     //     })
-    // }
-
-
     async function deleteClickHandle(id) {
         await api.deleteUserById(id)
             .then(res => {
                 // window.alert(`Id ${id}wos remmoved.`)
                 console.log(id)
             })
-
     }
 
     return (
@@ -57,9 +45,9 @@ export default function () {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.data.map(row => (
+                    {data.data.map((row, index) => (
                         <tr>
-                            <th scope="row">1</th>
+                            <th scope="row">{index + 1}</th>
                             <td>{row.name}</td>
                             <td>{row.email}</td>
                             <td>{row.phone}</td>

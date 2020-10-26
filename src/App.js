@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+// import "./App.css";
 
 import AuthService from "./services/auth.service";
 
@@ -100,23 +100,25 @@ class App extends Component {
               </li>
             </div>
           ) : (
-              <div className="navbar-nav ml-auto">
-                {/* <li className="nav-item">
-                  <Link to={"/login"} className="nav-link">
-                    Login
-                </Link>
-                </li> */}
+              // <div className="navbar-nav ml-auto">
+              //   <li className="nav-item">
+              //     <Link to={"/login"} className="nav-link">
+              //       Login
+              //   </Link>
+              //   </li>
 
-                <li className="nav-item">
-                  <Link to={"/register"} className="nav-link">
-                    Sign Up
-                </Link>
-                </li>
-              </div>
+              //   <li className="nav-item">
+              //     <Link to={"/register"} className="nav-link">
+              //       Sign Up
+              //   </Link>
+              //   </li>
+              // </div>
+              <>
+              </>
             )}
         </nav>
 
-        <div className="container mt-3">
+        <div className="container-fluid">
           <Switch>
             <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path="/login" component={Login} />
