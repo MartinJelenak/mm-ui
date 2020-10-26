@@ -53,21 +53,21 @@ export default function BoardModerator() {
     return (
         <div className="container mt-3">
             <form>
-                <div class="form-group">
+                <div className="form-group">
                     <label for="exampleFormControlInput1">Title</label>
-                    <input onChange={titleChange} type="text" class="form-control" id="exampleFormControlInput1" />
+                    <input onChange={titleChange} type="text" className="form-control" id="exampleFormControlInput1" />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <label for="exampleFormControlInput1">Prologue</label>
-                    <input onChange={prologueChange} type="text" class="form-control" id="exampleFormControlInput1" />
+                    <input onChange={prologueChange} type="text" className="form-control" id="exampleFormControlInput1" />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <label for="exampleFormControlTextarea1">Article</label>
-                    <textarea onChange={articleChange} class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <textarea onChange={articleChange} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
             </form>
             <div>
-                <button onClick={submitHandle} type="button" class="btn btn-primary float-right">Submit</button>
+                <button onClick={submitHandle} type="button" className="btn btn-primary float-right">Submit</button>
             </div>
         </div >
     )

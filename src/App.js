@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import "./App.css";
+import "./App.css";
 
 import AuthService from "./services/auth.service";
 
 import Login from "./components/Login.component";
 import Register from "./components/Register.component";
-import Home from "./components/Home.component";
+import Home from "./components/Bord-Home.component";
 import Profile from "./components/Profile.component";
-import BoardUser from "./components/Board-user.component";
+import BoardUser from "./components/user.component";
 import BoardModerator from "./components/Board-moderator.component";
 import BoardAdmin from "./components/Board-admin.component";
+import BlogManager from "./components/Blog-manager.component"
 import { get } from "lodash";
 
 class App extends Component {
@@ -49,10 +50,10 @@ class App extends Component {
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
-            <a class="navbar-brand" href="#">
-              <img src="http://www.martinjelenak.com/static/media/logo.2ca6c8b0.png" height="30" class="d-inline-block align-top" alt="" loading="lazy" />
-            </a>
-              Martin Jelenak
+            {/* <a className="navbar-brand" href="#"> */}
+            {/* <img src="http://www.martinjelenak.com/static/media/logo.2ca6c8b0.png" height="30" className="d-inline-block align-top" alt="" loading="lazy" /> */}
+            {/* </a> */}
+              Zerowaste girls
           </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
@@ -62,28 +63,35 @@ class App extends Component {
             </li>
 
             {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
+              <>
+                <li className="nav-item">
+                  <Link to={"/redactor"} className="nav-link">
+                    Redactor
                 </Link>
-              </li>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/blogmanager"} className="nav-link">
+                    Blog manager
+                </Link>
+                </li>
+              </>
             )}
 
             {showAdminBoard && (
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
-                  Admin Board
+                  User manager
                 </Link>
               </li>
             )}
 
-            {currentUser && (
+            {/* {currentUser && (
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">
                   User
                 </Link>
               </li>
-            )}
+            )} */}
           </div>
 
           {currentUser ? (
@@ -125,7 +133,8 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
             <Route path="/user" component={BoardUser} />
-            <Route path="/mod" component={BoardModerator} />
+            <Route path="/redactor" component={BoardModerator} />
+            <Route path="/blogmanager" component={BlogManager} />
             <Route path="/admin" component={BoardAdmin} />
           </Switch>
         </div>
