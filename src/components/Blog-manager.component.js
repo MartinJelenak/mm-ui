@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Api from '../api';
+import Api from '../services/api';
 import AuthService from "../services/auth.service";
 import BlogManager from './BlogManager'
 

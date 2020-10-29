@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import UserService from "../services/user.service";
+import api from "../services/user.service";
 
 export default class BoardUser extends Component {
     constructor(props) {
@@ -12,7 +12,7 @@ export default class BoardUser extends Component {
     }
 
     componentDidMount() {
-        UserService.getUserBoard().then(
+        api.getUserBoard().then(
             response => {
                 this.setState({
                     content: response.data

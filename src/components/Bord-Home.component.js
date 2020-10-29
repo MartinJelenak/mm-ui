@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import Api from '../api'
+import Api from '../services/api'
 import Home from './Home'
 
 export default function HomeComponent() {

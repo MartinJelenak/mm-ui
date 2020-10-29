@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import UserService from "../services/user.service";
-import api from '../api'
+import api from '../services/api'
 
 export default function () {
     const [data, setData] = useState({ data: [] });
