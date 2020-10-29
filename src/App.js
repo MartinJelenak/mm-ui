@@ -13,7 +13,6 @@ import BoardUser from "./components/user.component";
 import BoardModerator from "./components/Board-moderator.component";
 import BoardAdmin from "./components/Board-admin.component";
 import BlogManager from "./components/Blog-manager.component"
-import { get } from "lodash";
 
 class App extends Component {
   constructor(props) {
@@ -31,6 +30,7 @@ class App extends Component {
     const user = AuthService.getCurrentUser();
 
     if (user) {
+      console.log('is user')
       this.setState({
         currentUser: user,
         showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
