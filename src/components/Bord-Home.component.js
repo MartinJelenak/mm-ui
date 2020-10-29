@@ -1,6 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
 import Api from '../api'
-import UserService from "../services/user.service";
 import Home from './Home'
 
 export default function HomeComponent() {

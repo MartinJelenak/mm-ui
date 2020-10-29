@@ -19,14 +19,14 @@ export default function BlogmanagerComponent() {
                 setResData(res.data)
             },
             error => {
-                this.setState({
+                setContent({
                     content:
                         (error.res &&
                             error.res.data &&
                             error.res.data.message) ||
                         error.message ||
                         error.toString()
-                });
+                })
             }
         );
         setCurrentUser(AuthService.getCurrentUser())
