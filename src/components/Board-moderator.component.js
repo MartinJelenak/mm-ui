@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Api from "../api"
+import AuthService from "../services/auth.service";
 
 export default function BoardModerator() {
     const [title, setTitle] = useState('')
     const [prologue, setPrologue] = useState('')
     const [article, setArticle] = useState('')
+    const [currentUser, setCurrentUser] = useState({})
+
+    useEffect(() => {
+        setCurrentUser(AuthService.getCurrentUser())
+    }, [])
 
     function titleChange(e) {
         setTitle(e.target.value)
@@ -24,6 +30,7 @@ export default function BoardModerator() {
             title,
             prologue,
             article,
+            confirmation: [currentUser.email]
         }
 
         Api.insertBlog(
@@ -39,15 +46,11 @@ export default function BoardModerator() {
                         error.response.data.message) ||
                     error.message ||
                     error.toString();
-
-                this.setState({
-                    successful: false,
-                    message: resMessage
-                });
             }
         );
-
-
+        setTitle('');
+        setPrologue('');
+        setArticle('');
     }
 
     return (
